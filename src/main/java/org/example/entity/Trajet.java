@@ -1,8 +1,10 @@
 package org.example.entity;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 public class Trajet {
@@ -19,7 +21,9 @@ public class Trajet {
     private LocalTime heure;
 
     private int nbPlaces;
-
+   /* @OneToMany(mappedBy = "trajet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Commentaire> comments; // waiting for Amal's Commentaire push
+*/
     public Trajet() {
     }
 
