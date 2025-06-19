@@ -44,11 +44,9 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-/*
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Commentaire> commentaires;
-*/
-
 
     public enum Role {
         PASSENGER, DRIVER

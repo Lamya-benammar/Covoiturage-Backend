@@ -21,9 +21,37 @@ public class Trajet {
     private LocalTime heure;
 
     private int nbPlaces;
-   /* @OneToMany(mappedBy = "trajet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+    public List<Commentaire> getComments() {
+        return comments;
+    }
+
+    public void setVu(int vu) {
+        this.vu = vu;
+    }
+
+    public void setPrix(double prix) {
+        this.prix = prix;
+    }
+
+    public void setComments(List<Commentaire> comments) {
+        this.comments = comments;
+    }
+
+    public double getPrix() {
+        return prix;
+    }
+
+    public int getVu() {
+        return vu;
+    }
+
+    private int vu ;
+    private double prix;
+
+   @OneToMany(mappedBy = "trajet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Commentaire> comments; // waiting for Amal's Commentaire push
-*/
+
     public Trajet() {
     }
 
