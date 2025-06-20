@@ -26,6 +26,27 @@ public class Trajet {
         return comments;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "vehicule_id")
+    private Vehicule vehicule;
+
+    public User getUser() {
+        return user;
+    }
+
+    @ManyToOne
+    private User user;
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @OneToMany(mappedBy = "trajet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Commentaire> comments; // waiting for Amal's Commentaire push
+
+    private int vu ;
+    private double prix;
+
     public void setVu(int vu) {
         this.vu = vu;
     }
@@ -46,11 +67,6 @@ public class Trajet {
         return vu;
     }
 
-    private int vu ;
-    private double prix;
-
-   @OneToMany(mappedBy = "trajet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Commentaire> comments; // waiting for Amal's Commentaire push
 
     public Trajet() {
     }
@@ -120,6 +136,12 @@ public class Trajet {
         this.heure = heure;
         this.nbPlaces = nbPlaces;
     }
+    public Vehicule getVehicule() {
+        return vehicule;
+    }
 
+    public void setVehicule(Vehicule vehicule) {
+        this.vehicule = vehicule;
+    }
 
 }

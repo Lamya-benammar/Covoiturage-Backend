@@ -23,7 +23,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/users", "/api/users/dashboard/delete/**", "/api/trajets").permitAll() // hedhi ala khater namlou fi ops ta3 delete w  cryptage ta3 pass  w user is unauthenticated
+                        .requestMatchers("/api/users", "/api/users/dashboard/delete/**", "/api/trajets/**", "/api/trajets/*/reserver").permitAll() // hedhi ala khater namlou fi ops ta3 delete w  cryptage ta3 pass  w user is unauthenticated
                         .anyRequest().authenticated()
                 ).httpBasic(withDefaults());
         return http.build();

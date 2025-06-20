@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import org.example.entity.User;
 
 public interface TrajetRepository extends JpaRepository<Trajet, Long> {
     List<Trajet> findAll();
@@ -15,19 +16,20 @@ public interface TrajetRepository extends JpaRepository<Trajet, Long> {
     Trajet save(Trajet trajet);
 
     Optional<Trajet> findById(Long id);
+
     @Query("""
-    SELECT t FROM Trajet t
-    WHERE (:depart IS NULL OR LOWER(t.depart) LIKE LOWER(CONCAT('%', :depart, '%')))
-      AND (:destination IS NULL OR LOWER(t.destination) LIKE LOWER(CONCAT('%', :destination, '%')))
-      AND (:date IS NULL OR t.date = :date)
-      AND (:places IS NULL OR t.nbPlaces >= :places)
-""")
+                SELECT t FROM Trajet t
+                WHERE (:depart IS NULL OR LOWER(t.depart) LIKE LOWER(CONCAT('%', :depart, '%')))
+                  AND (:destination IS NULL OR LOWER(t.destination) LIKE LOWER(CONCAT('%', :destination, '%')))
+                  AND (:date IS NULL OR t.date = :date)
+                  AND (:places IS NULL OR t.nbPlaces >= :places)
+            """)
     List<Trajet> searchByCriteria(
             @Param("depart") String depart,
             @Param("destination") String destination,
             @Param("date") LocalDate date,
             @Param("places") Integer places
     );
-    }
 
-
+    List<Trajet> findByUser(User user);
+}

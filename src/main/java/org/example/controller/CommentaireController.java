@@ -28,7 +28,7 @@ public class CommentaireController {
     @Autowired
     private UserRepository userRepository;
 
-
+/*
     @GetMapping("/trajet/{trajetId}/commentaire")
     public ResponseEntity<List<Commentaire>> getCommentairesByTrajetId(@PathVariable Long trajetId) {
         List<Commentaire> commentaires = commentaireRepository.findByTrajetId(trajetId);
@@ -54,7 +54,7 @@ public class CommentaireController {
 
         Commentaire saved = commentaireRepository.save(commentaireRequest);
         return ResponseEntity.ok(saved);
-    }
+    }*/
 }
 
 
