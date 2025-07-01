@@ -1,5 +1,6 @@
 package org.example.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -28,7 +29,9 @@ public class Trajet {
 
     @ManyToOne
     @JoinColumn(name = "vehicule_id")
+    @JsonBackReference
     private Vehicule vehicule;
+
 
     public User getUser() {
         return user;

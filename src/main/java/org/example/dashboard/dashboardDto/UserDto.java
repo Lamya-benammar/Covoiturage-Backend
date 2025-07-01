@@ -14,12 +14,21 @@ import java.util.List;
 @Getter
 @Setter
 public class UserDto {
+    public UserDto(Long id, String firstname, String lastname, String email) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+    }
+
     private Long id;
     private String firstname;
     private String lastname;
     private String email;
     private String phone;
     private User.Role role;
+
+
     //private List<Commentaire>commentaires;
 
 

@@ -15,7 +15,9 @@ public interface TrajetRepository extends JpaRepository<Trajet, Long> {
 
     Trajet save(Trajet trajet);
 
-    Optional<Trajet> findById(Long id);
+    @Query("SELECT t FROM Trajet t LEFT JOIN FETCH t.vehicule WHERE t.id = :id")
+    Optional<Trajet> findTrajetById(@Param("id") Long id);
+
 
     @Query("""
                 SELECT t FROM Trajet t

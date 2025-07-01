@@ -1,17 +1,10 @@
 package org.example.dashboard.dashboardDto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.entity.Commentaire;
 import org.example.entity.User;
-
-import javax.management.relation.Role;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,4 +18,32 @@ public class UserCreationDto {
     private String phone;
     private String password;
     private User.Role role;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public User.Role getRole() {
+        return role;
+    }
 }

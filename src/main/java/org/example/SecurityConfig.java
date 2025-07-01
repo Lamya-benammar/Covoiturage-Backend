@@ -7,6 +7,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -21,9 +24,17 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.cors(cors -> cors.configurationSource(request -> {
+            CorsConfiguration config = new CorsConfiguration();
+            config.setAllowedOrigins(List.of("http://localhost:4200"));
+            config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+            config.setAllowedHeaders(List.of("*"));
+            config.setAllowCredentials(true);
+            return config;
+        }));
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/users", "/api/users/dashboard/delete/**", "/api/trajets/**", "/api/trajets/*/reserver").permitAll() // hedhi ala khater namlou fi ops ta3 delete w  cryptage ta3 pass  w user is unauthenticated
+                        .requestMatchers("/api/users", "/api/users/dashboard/delete/**", "/api/trajets/**", "/api/trajets/*/reserver","/api/vehicules/**","/api/vehicules/user/**").permitAll() // hedhi ala khater namlou fi ops ta3 delete w  cryptage ta3 pass  w user is unauthenticated
                         .anyRequest().authenticated()
                 ).httpBasic(withDefaults());
         return http.build();

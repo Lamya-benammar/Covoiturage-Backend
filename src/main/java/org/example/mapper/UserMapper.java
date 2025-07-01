@@ -5,6 +5,7 @@ import org.example.dashboard.dashboardDto.UserDto;
 import org.example.entity.User;
 
 public class UserMapper {
+
     public static UserDto mapToUserDto(User user){
         return new UserDto(
                 user.getId(),

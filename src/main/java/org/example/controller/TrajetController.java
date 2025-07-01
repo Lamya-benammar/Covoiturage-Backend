@@ -1,7 +1,11 @@
 package org.example.controller;
 
+import org.example.dashboard.dashboardDto.UserDto;
+import org.example.dto.trajetDTO;
+import org.example.dto.vehiculeDTO;
 import org.example.entity.Trajet;
 import org.example.entity.User;
+import org.example.entity.Vehicule;
 import org.example.repository.TrajetRepository;
 import org.example.repository.UserRepository;
 
@@ -13,10 +17,11 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/trajets")
-@CrossOrigin(origins = "http://localhost:4200")
+// @CrossOrigin(origins = "http://localhost:4200")
 public class TrajetController {
 
     private final UserRepository userRepository;
@@ -27,11 +32,53 @@ public class TrajetController {
         this.trajetRepository = trajetRepository;
         this.userRepository = userRepository;
     }
-
     @GetMapping
-    public List<Trajet> getAllTrajets() {
-        return trajetRepository.findAll();
+    public List<trajetDTO> getAllTrajets() {
+        List<Trajet> trajets = trajetRepository.findAll();
+
+        return trajets.stream().map(trajet -> {
+            // Mapping du véhicule
+            Vehicule vehicule = trajet.getVehicule();
+            vehiculeDTO vehiculeDto = null;
+
+            if (vehicule != null) {
+                vehiculeDto = new vehiculeDTO(
+                        vehicule.getId(),
+                        vehicule.getMarque(),
+                        vehicule.getImmatriculation(),
+                        vehicule.getConducteur()
+                );
+            }
+
+
+            User user = trajet.getUser();
+            UserDto userDto = null;
+
+            if (user != null) {
+                userDto = new UserDto(
+                        user.getId(),
+                        user.getName(),
+                        user.getLastName(),
+                        user.getEmail()
+                );
+            }
+
+            return new trajetDTO(
+                    trajet.getId(),
+                    trajet.getDepart(),
+                    trajet.getDestination(),
+                    trajet.getDate(),
+                    trajet.getHeure(),
+                    trajet.getNbPlaces(),
+                    trajet.getVu(),
+                    trajet.getPrix(),
+                    vehiculeDto,
+                    userDto
+            );
+        }).collect(Collectors.toList());
     }
+
+
 
     @GetMapping("/search")
     public List<Trajet> searchTrajets(
@@ -43,10 +90,11 @@ public class TrajetController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Trajet> getTrajet(@PathVariable Long id) {
-        Optional<Trajet> trajetOptional = trajetRepository.findById(id);
+    public ResponseEntity<Trajet> consulterTrajet(@PathVariable Long id) {
+        Optional<Trajet> trajetOptional = trajetRepository.findTrajetById(id); // ← ici
         if (trajetOptional.isPresent()) {
             Trajet trajet = trajetOptional.get();
+            System.out.println("Vehicule: " + trajet.getVehicule()); // ← debug
             trajet.setVu(trajet.getVu() + 1);
             trajetRepository.save(trajet);
             return ResponseEntity.ok(trajet);
@@ -54,6 +102,8 @@ public class TrajetController {
             return ResponseEntity.notFound().build();
         }
     }
+
+
 
     @PostMapping("/{trajetId}/increment-vu")
     public ResponseEntity<Void> incrementerNombreDeVu(@PathVariable Long trajetId) {
