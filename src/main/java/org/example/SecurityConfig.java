@@ -34,7 +34,10 @@ public class SecurityConfig {
         }));
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/users", "/api/users/dashboard/delete/**", "/api/trajets/**", "/api/trajets/*/reserver","/api/vehicules/**","/api/vehicules/user/**").permitAll() // hedhi ala khater namlou fi ops ta3 delete w  cryptage ta3 pass  w user is unauthenticated
+                        .requestMatchers("/api/users", "/api/users/dashboard/delete/**",
+                                "/api/trajets/**", "/api/trajets/*/reserver",
+                                "/api/vehicules/**","/api/vehicules/user/**",
+                                "/api/trajets","/api/trajets/*/vehicules/*").permitAll() // hedhi ala khater namlou fi ops ta3 delete w  cryptage ta3 pass  w user is unauthenticated
                         .anyRequest().authenticated()
                 ).httpBasic(withDefaults());
         return http.build();

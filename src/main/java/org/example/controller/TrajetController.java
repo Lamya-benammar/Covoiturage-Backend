@@ -6,9 +6,9 @@ import org.example.dto.vehiculeDTO;
 import org.example.entity.Trajet;
 import org.example.entity.User;
 import org.example.entity.Vehicule;
-import org.example.repository.TrajetRepository;
-import org.example.repository.UserRepository;
+import org.example.repository.*;
 
+import org.example.repository.VehiculeRepository;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,18 +26,19 @@ public class TrajetController {
 
     private final UserRepository userRepository;
     private final TrajetRepository trajetRepository;
+    private final VehiculeRepository vehiculeRepository;
 
-    public TrajetController(TrajetRepository trajetRepository , UserRepository userRepository) {
+    public TrajetController(TrajetRepository trajetRepository , UserRepository userRepository, VehiculeRepository vehiculeRepository) {
 
         this.trajetRepository = trajetRepository;
         this.userRepository = userRepository;
+        this.vehiculeRepository = vehiculeRepository;
     }
     @GetMapping
     public List<trajetDTO> getAllTrajets() {
         List<Trajet> trajets = trajetRepository.findAll();
 
         return trajets.stream().map(trajet -> {
-            // Mapping du véhicule
             Vehicule vehicule = trajet.getVehicule();
             vehiculeDTO vehiculeDto = null;
 
@@ -45,26 +46,26 @@ public class TrajetController {
                 vehiculeDto = new vehiculeDTO(
                         vehicule.getId(),
                         vehicule.getMarque(),
-                        vehicule.getImmatriculation(),
+                        vehicule.getImmatricule(),
                         vehicule.getConducteur()
                 );
             }
 
+            User conducteur = trajet.getUser();
+            UserDto conducteurDto = null;
 
-            User user = trajet.getUser();
-            UserDto userDto = null;
-
-            if (user != null) {
-                userDto = new UserDto(
-                        user.getId(),
-                        user.getName(),
-                        user.getLastName(),
-                        user.getEmail()
+            if (conducteur != null) {
+                conducteurDto = new UserDto(
+                        conducteur.getId(),
+                        conducteur.getName(),
+                        conducteur.getLastName(),
+                        conducteur.getEmail()
                 );
             }
 
             return new trajetDTO(
                     trajet.getId(),
+                    conducteurDto,
                     trajet.getDepart(),
                     trajet.getDestination(),
                     trajet.getDate(),
@@ -73,10 +74,11 @@ public class TrajetController {
                     trajet.getVu(),
                     trajet.getPrix(),
                     vehiculeDto,
-                    userDto
+                    trajet.getTypeAnnonce()
             );
         }).collect(Collectors.toList());
     }
+
 
 
 
@@ -123,7 +125,7 @@ public class TrajetController {
             Trajet trajet = trajetOpt.get();
             if (trajet.getNbPlaces() > 0) {
                 trajet.setNbPlaces(trajet.getNbPlaces() - 1);
-                String notification = "Le client " + clientName + " a réservé une place avec " + trajet.getConducteur();
+                String notification = "Le client " + clientName + " a réservé une place avec " + trajet.getUser();
 
                 trajetRepository.save(trajet);
                 return ResponseEntity.ok("Réservation confirmée.");
@@ -134,11 +136,27 @@ public class TrajetController {
             return ResponseEntity.notFound().build();
         }
     }
-    @PostMapping
-    public ResponseEntity<Trajet> createTrajet(@RequestBody Trajet trajet) {
+    @PostMapping("/{userId}/vehicules/{vehiculeId}")
+    public ResponseEntity<Trajet> createTrajet(
+            @PathVariable Long userId,
+            @PathVariable Long vehiculeId,
+            @RequestBody Trajet trajet) {
+
+        // Vérifier si l'utilisateur existe
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+        // Vérifier si le véhicule existe
+        Vehicule vehicule = vehiculeRepository.findById(vehiculeId)
+                .orElseThrow(() -> new RuntimeException("Véhicule non trouvé"));
+
+        trajet.setUser(user);
+        trajet.setVehicule(vehicule);
+
         Trajet savedTrajet = trajetRepository.save(trajet);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTrajet);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTrajet(@PathVariable Long id) {
         if (trajetRepository.existsById(id)) {
@@ -158,7 +176,7 @@ public class TrajetController {
             existingTrajet.setDate(updatedTrajet.getDate());
             existingTrajet.setHeure(updatedTrajet.getHeure());
             existingTrajet.setNbPlaces(updatedTrajet.getNbPlaces());
-            existingTrajet.setConducteur(updatedTrajet.getConducteur());
+            existingTrajet.setUser(updatedTrajet.getUser());
             existingTrajet.setVu(updatedTrajet.getVu());
 
             trajetRepository.save(existingTrajet);

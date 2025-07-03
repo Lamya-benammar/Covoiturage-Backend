@@ -15,7 +15,9 @@ import java.util.List;
 
         @Autowired
         private VehiculeRepository vehiculeRepository;
+    @Autowired
         private UserRepository userRepository ;
+
 
         public List<Vehicule> getVehiculesByUserId(Long userId) {
             return vehiculeRepository.findByConducteurId(userId);
@@ -30,11 +32,10 @@ import java.util.List;
 
 
     public Vehicule updateVehicule(Long id, Vehicule updatedVehicule) {
-            return vehiculeRepository.findById(id).map(v -> {
+            return vehiculeRepository.findById(updatedVehicule.getId()).map(v -> {
                 v.setMarque(updatedVehicule.getMarque());
-                v.setImmatriculation(updatedVehicule.getImmatriculation());
+                v.setImmatricule(updatedVehicule.getImmatricule());
 
-                v.setConducteur(updatedVehicule.getConducteur());
                 return vehiculeRepository.save(v);
             }).orElseThrow(() -> new RuntimeException("Vehicule not found"));
         }

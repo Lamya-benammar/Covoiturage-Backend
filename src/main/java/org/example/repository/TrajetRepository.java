@@ -9,7 +9,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.example.entity.User;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface TrajetRepository extends JpaRepository<Trajet, Long> {
     List<Trajet> findAll();
 

@@ -26,10 +26,10 @@ public class VehiculeController {
     }
 
 
-        @PutMapping("/{id}")
-        public Vehicule updateVehicule(@PathVariable Long id, @RequestBody Vehicule vehicule) {
-            return vehiculeService.updateVehicule(id, vehicule);
-        }
+    @PostMapping("/{id}")
+    public Vehicule updateVehicule(@PathVariable Long id, @RequestBody Vehicule vehicule) {
+        return vehiculeService.updateVehicule(id, vehicule);
+    }
 
         @DeleteMapping("/{id}")
         public ResponseEntity<Void> deleteVehicule(@PathVariable Long id) {

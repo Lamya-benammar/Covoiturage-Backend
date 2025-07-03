@@ -15,7 +15,18 @@ public class trajetDTO {
     private int nbPlaces;
     private int vu;
     private double prix;
+
+    public void setTypeAnnonce(String typeAnnonce) {
+        this.typeAnnonce = typeAnnonce;
+    }
+
     private vehiculeDTO vehicule;
+
+    public String getTypeAnnonce() {
+        return typeAnnonce;
+    }
+
+    private String typeAnnonce;
 
     public Long getId() {
         return id;
@@ -90,17 +101,9 @@ public class trajetDTO {
         return vu;
     }
 
-    public double getPrix() {
-        return prix;
-    }
-
-    public vehiculeDTO getVehicule() {
-        return vehicule;
-    }
-
-    public trajetDTO(Long id, String depart, String destination, LocalDate date, LocalTime heure,
-                     int nbPlaces, int vu, double prix, vehiculeDTO vehicule, UserDto conducteur) {
+    public trajetDTO(Long id, UserDto conducteur, String depart, String destination, LocalDate date, LocalTime heure, int nbPlaces, int vu, double prix, vehiculeDTO vehicule, String typeAnnonce) {
         this.id = id;
+        this.conducteur = conducteur;
         this.depart = depart;
         this.destination = destination;
         this.date = date;
@@ -109,8 +112,18 @@ public class trajetDTO {
         this.vu = vu;
         this.prix = prix;
         this.vehicule = vehicule;
-        this.conducteur = conducteur;
+        this.typeAnnonce = typeAnnonce;
     }
+
+    public double getPrix() {
+        return prix;
+    }
+
+    public vehiculeDTO getVehicule() {
+        return vehicule;
+    }
+
+
 
 
 }

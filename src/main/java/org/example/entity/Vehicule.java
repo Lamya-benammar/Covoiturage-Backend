@@ -12,7 +12,7 @@ public class Vehicule {
     private Long id;
 
     private String marque;
-    private String immatriculation;
+    private String immatricule;
 
     @ManyToOne
     @JoinColumn(name = "conducteur_id")
@@ -26,9 +26,9 @@ public class Vehicule {
     public Vehicule() {
     }
 
-    public Vehicule(String marque, String immatriculation, User conducteur) {
+    public Vehicule(String marque, String immatricule, User conducteur) {
         this.marque = marque;
-        this.immatriculation = immatriculation;
+        this.immatricule = immatricule;
         this.conducteur = conducteur;
     }
 
@@ -40,8 +40,8 @@ public class Vehicule {
         this.marque = marque;
     }
 
-    public void setImmatriculation(String immatriculation) {
-        this.immatriculation = immatriculation;
+    public void setImmatricule(String immatricule) {
+        this.immatricule = immatricule;
     }
 
     public void setConducteur(User conducteur) {
@@ -60,8 +60,8 @@ public class Vehicule {
         return conducteur;
     }
 
-    public String getImmatriculation() {
-        return immatriculation;
+    public String getImmatricule() {
+        return immatricule;
     }
 
     public String getMarque() {

@@ -5,7 +5,7 @@ import org.example.entity.User;
 public class vehiculeDTO {
     private Long id;
     private String marque;
-    private String immatriculation;
+    private String immatricule;
     private User conducteur;
 
     public Long getId() {
@@ -24,26 +24,26 @@ public class vehiculeDTO {
         this.marque = marque;
     }
 
-    public void setImmatriculation(String immatriculation) {
-        this.immatriculation = immatriculation;
+    public void setImmatricule(String immatricule) {
+        this.immatricule = immatricule;
     }
 
     public void setConducteur(User conducteur) {
         this.conducteur = conducteur;
     }
 
-    public String getImmatriculation() {
-        return immatriculation;
+    public String getImmatricule() {
+        return immatricule;
     }
 
     public User getConducteur() {
         return conducteur;
     }
 
-    public vehiculeDTO(Long id, String marque, String immatriculation, User conducteur) {
+    public vehiculeDTO(Long id, String marque, String immatricule, User conducteur) {
         this.id = id;
         this.marque = marque;
-        this.immatriculation = immatriculation;
+        this.immatricule = immatricule;
         this.conducteur = conducteur;
     }
 
