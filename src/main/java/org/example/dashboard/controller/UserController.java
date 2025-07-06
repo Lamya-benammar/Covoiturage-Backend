@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.example.dashboard.dashboardDto.UserCreationDto;
 import org.example.dashboard.dashboardDto.UserDto;
 import org.example.dashboard.service.UserService;
+import org.example.entity.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,17 @@ public class UserController {
         return ResponseEntity.ok(deletedUser);
 
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+        User user = userService.updateUser(id, updatedUser);
+        return ResponseEntity.ok(user);
+    }
 
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        return ResponseEntity.ok(user);
+    }
 
 }

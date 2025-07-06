@@ -46,4 +46,7 @@ public class UserCreationDto {
     public User.Role getRole() {
         return role;
     }
+
+    public void setPassword(String encode) {
+    }
 }
