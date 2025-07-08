@@ -1,5 +1,6 @@
 package org.example.repository;
 
+import org.example.dto.TrajetDTO;
 import org.example.entity.Trajet;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Repository;
 public interface TrajetRepository extends JpaRepository<Trajet, Long> {
     List<Trajet> findAll();
 
-    Trajet save(Trajet trajet);
+    Trajet save(TrajetDTO trajet);
 
     @Query("SELECT t FROM Trajet t LEFT JOIN FETCH t.vehicule WHERE t.id = :id")
     Optional<Trajet> findTrajetById(@Param("id") Long id);

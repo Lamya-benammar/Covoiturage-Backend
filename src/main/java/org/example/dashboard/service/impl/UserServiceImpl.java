@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto createUser(UserCreationDto userCreationDto) {
         userCreationDto.setPassword(passwordEncoder.encode(userCreationDto.getPassword()));
-        User user = UserMapper.mapToUser(userCreationDto);
+        User user = UserMapper.mapToUserFromUserCreationDto(userCreationDto);
         User savedUser = userRepository.save(user);
         return UserMapper.mapToUserDto(savedUser);
     }
@@ -37,6 +37,10 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> fetchUsers() {
         List<User> users = userRepository.findAll();
         return users.stream().map(user -> UserMapper.mapToUserDto(user)).collect(Collectors.toList());
+    }
+
+    public Long countUsers() {
+        return userRepository.count();
     }
 
     @Override

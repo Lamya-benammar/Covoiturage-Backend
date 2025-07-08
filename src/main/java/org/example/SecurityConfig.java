@@ -32,14 +32,37 @@ public class SecurityConfig {
             config.setAllowCredentials(true);
             return config;
         }));
-        http.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/users","/api/users/**", "/api/users/dashboard/delete/**",
-                                "/api/trajets/**", "/api/trajets/*/reserver",
-                                "/api/vehicules/**","/api/vehicules/user/**",
-                                "/api/trajets","/api/trajets/*/vehicules/*").permitAll() // hedhi ala khater namlou fi ops ta3 delete w  cryptage ta3 pass  w user is unauthenticated
-                        .anyRequest().authenticated()
-                ).httpBasic(withDefaults());
+
+        http.csrf(csrf -> csrf.disable());
+
+        // all reauests are allowed without auth
+        http.authorizeHttpRequests(auth -> auth
+                .anyRequest().permitAll()
+        );
+
+        // old configuration #### no delete ###
+//    http.csrf(csrf -> csrf.disable())
+//        .authorizeHttpRequests(auth -> auth
+//            .requestMatchers(
+//                "/api/dashboard/",
+//                "/api/dashboard/**",
+//                "/api/dashboard/deleteUser/**",
+//                "/api/countUsers",
+//                "/api/dashboard/user",
+//                "/api/dashboard/user/**",
+//                "/addVehiculeToUser/**",
+//                "/api/trajets/**",
+//                "/api/trajets/*/reserver",
+//                "/api/vehicules/**",
+//                "/api/vehicules/user/**",
+//                "/api/trajets",
+//                "/api/trajets/*/vehicules/*"
+//            ).permitAll()
+//            .anyRequest().authenticated()
+//        );
+
+        http.httpBasic(withDefaults());
+
         return http.build();
     }
 }

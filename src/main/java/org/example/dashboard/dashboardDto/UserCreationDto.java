@@ -18,35 +18,4 @@ public class UserCreationDto {
     private String phone;
     private String password;
     private User.Role role;
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public User.Role getRole() {
-        return role;
-    }
-
-    public void setPassword(String encode) {
-    }
 }

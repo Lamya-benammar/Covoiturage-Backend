@@ -6,7 +6,7 @@ import org.example.entity.User;
 
 public class UserMapper {
 
-    public static UserDto mapToUserDto(User user){
+    public static UserDto mapToUserDto(User user) {
         return new UserDto(
                 user.getId(),
                 user.getName(),
@@ -14,22 +14,33 @@ public class UserMapper {
                 user.getEmail(),
                 user.getPhone(),
                 user.getRole()
-               // user.getCommentaires()
-
+                //user.getCommentaires()
         );
     }
 
 
-    public static User mapToUser(UserCreationDto creationDto) {
-       return new User(
-               creationDto.getId(),
-               creationDto.getFirstName(),
-               creationDto.getLastName(),
-               creationDto.getEmail(),
-               creationDto.getPhone(),
-               creationDto.getPassword(),
-               creationDto.getRole()
+    public static User mapToUserFromUserCreationDto(UserCreationDto creationDto) {
+        return new User(
+                creationDto.getId(),
+                creationDto.getFirstName(),
+                creationDto.getLastName(),
+                creationDto.getEmail(),
+                creationDto.getPhone(),
+                creationDto.getPassword(),
+                creationDto.getRole()
         );
 
+    }
+
+
+    public static User mapToUserFromDTO(UserDto dto) {
+        User user = new User();
+        user.setId(dto.getId());
+        user.setName(dto.getFirstname());
+        user.setLastName(dto.getLastname());
+        user.setEmail(dto.getEmail());
+        user.setPhone(dto.getPhone());
+        user.setRole(dto.getRole());
+        return user;
     }
 }

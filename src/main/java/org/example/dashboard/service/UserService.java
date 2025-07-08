@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface UserService {
     UserDto createUser (UserCreationDto userCreationDto);
     List<UserDto> fetchUsers ();
+    public Long countUsers();
     UserDto deleteUser (Long id);
 
     User updateUser(Long id, User updatedUser);

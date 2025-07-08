@@ -1,5 +1,6 @@
 package org.example.controller;
 
+import org.example.dto.VehiculeDTO;
 import org.example.entity.Vehicule;
 import org.example.service.VehiculeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,30 +13,30 @@ import java.util.List;
 @RequestMapping("/api/vehicules")
 public class VehiculeController {
 
-        @Autowired
-        private VehiculeService vehiculeService;
+    @Autowired
+    private VehiculeService vehiculeService;
 
-        @GetMapping("/user/{userId}")
-        public List<Vehicule> getVehiculesByUser(@PathVariable Long userId) {
-            return vehiculeService.getVehiculesByUserId(userId);
-        }
+    @GetMapping("/vehiculeByUser/{userId}")
+    public List<VehiculeDTO> getVehiculesByUser(@PathVariable Long userId) {
+        return vehiculeService.getVehiculesByUserId(userId);
+    }
 
-    @PostMapping("/user/{userId}")
-    public Vehicule addVehicule(@PathVariable Long userId, @RequestBody Vehicule vehicule) {
+    @PostMapping("/addVehiculeToUser/{userId}")
+    public VehiculeDTO addVehicule(@PathVariable Long userId, @RequestBody Vehicule vehicule) {
         return vehiculeService.addVehiculeToUser(userId, vehicule);
     }
 
 
-    @PostMapping("/{id}")
-    public Vehicule updateVehicule(@PathVariable Long id, @RequestBody Vehicule vehicule) {
+    @PostMapping("updateVehicule/{id}")
+    public VehiculeDTO updateVehicule(@PathVariable Long id, @RequestBody Vehicule vehicule) {
         return vehiculeService.updateVehicule(id, vehicule);
     }
 
-        @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deleteVehicule(@PathVariable Long id) {
-            vehiculeService.deleteVehicule(id);
-            return ResponseEntity.noContent().build();
-        }
+    @DeleteMapping("deleteVehicule/{id}")
+    public ResponseEntity<VehiculeDTO> deleteVehicule(@PathVariable Long id) {
+        VehiculeDTO vehiculeDTO = vehiculeService.deleteVehicule(id);
+        return ResponseEntity.noContent().build();
     }
+}
 
 
